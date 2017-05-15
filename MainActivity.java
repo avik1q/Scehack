@@ -13,13 +13,13 @@ import net.atomation.atomationsdk.ble.MultiSenseAtomManager;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "SCE";
-    public static final String MAC="48:1A:00:14:E1";
+    public static final String MAC="48:1A:84:00:14:E1";
     public IMultiSenseAtom Atom;
     @Override
     protected  void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d(TAG, "onCreate: ok go!!");
+        Log.w(TAG, "onCreate: ok go!!");
         Atom= MultiSenseAtomManager.getInstance(this.getApplicationContext())
                 .getMultiSenseAtom(MAC);
         if(Atom==null)
@@ -32,18 +32,18 @@ public class MainActivity extends AppCompatActivity {
         Atom.setSensorsReadListener(new ISensorsReadListener() {
             @Override
             public void onRead(SensorsData sensorsData) {
-                Log.d(TAG, "onRead() called with: sensorsData = [" + sensorsData + "]");
+                Log.w(TAG, "onRead() called with: sensorsData = [" + sensorsData + "]");
             }
 
             @Override
             public void onError(int errorCode) {
-                Log.d(TAG, "onError() called with: errorCode = [" + errorCode + "]");
+                //Log.d(TAG, "onError() called with: errorCode = [" + errorCode + "]");
             }
         });
         Atom.setButtonPressedListener(new IOnButtonPressedListener() {
             @Override
             public void onPress(int reason) {
-                Log.d(TAG, "onPress() called with: reason = [" + reason + "]");
+                Log.w(TAG, "onPress() called with: reason = [" + reason + "]");
             }
         });
     }
@@ -52,5 +52,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Atom.deactivate();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Atom.activate();
     }
 }
