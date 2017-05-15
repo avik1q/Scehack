@@ -3,6 +3,7 @@ package com.avik1q.scehack;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import net.atomation.atomationsdk.api.IMultiSenseAtom;
 import net.atomation.atomationsdk.api.IOnButtonPressedListener;
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "SCE";
     public static final String MAC="48:1A:84:00:14:E1";
     public IMultiSenseAtom Atom;
+    public boolean showToast=true;
     @Override
     protected  void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPress(int reason) {
                 Log.w(TAG, "onPress() called with: reason = [" + reason + "]");
+
+                if(showToast)
+                {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this.getApplicationContext(),"connected",Toast.LENGTH_LONG).show();
+
+                        }
+                    });
+                    showToast=false;
+                }
             }
         });
     }
